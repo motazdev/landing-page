@@ -83,10 +83,14 @@ function createNav() {
 
 // Add class 'active' to section when near top of viewport
 
-function isInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return ( rect.top >= 10 );
-}
+function isInViewport(elem) {
+    let distance = elem.getBoundingClientRect();
+    return (
+        // getting 
+      distance.top >= -100 &&
+      distance.bottom <= (window.innerHeight)
+    );
+  };
 
 // Scroll to anchor ID using scrollTO event
 
@@ -109,17 +113,20 @@ document.getElementById('addsecbtn').addEventListener('click', function(e) {
 
 // Set sections as active
 
-document.addEventListener("scroll", function () {
-    const box = document.querySelectorAll('section');
+var findMe = document.querySelectorAll('section');
 
-    box.forEach(function(secBox) {
-        if(isInViewport(secBox)) {
-            secBox.classList.remove('your-active-class');
-        } else {
-            secBox.classList.add('your-active-class');
-        }
-    })
+window.addEventListener('scroll', function(event) {
+// add event on scroll
+findMe.forEach(element => {
+    //for each .thisisatest
+    if (isInViewport(element)) {
+      //if in Viewport
+      element.classList.add("your-active-class");
+    } else {
+    	element.classList.remove("your-active-class");
+    }
 });
+}, false);
 
 // scroll to top
 
