@@ -113,20 +113,20 @@ document.getElementById('addsecbtn').addEventListener('click', function(e) {
 
 // Set sections as active
 
-var findMe = document.querySelectorAll('section');
+let sectionsBox = document.querySelectorAll('section');
 
 window.addEventListener('scroll', function(event) {
-// add event on scroll
-findMe.forEach(element => {
-    //for each .thisisatest
-    if (isInViewport(element)) {
-      //if in Viewport
-      element.classList.add("your-active-class");
+
+sectionsBox.forEach(sec => {
+    
+    if (isInViewport(sec)) {
+    
+      sec.classList.add("your-active-class");
     } else {
-    	element.classList.remove("your-active-class");
+    	sec.classList.remove("your-active-class");
     }
 });
-}, false);
+});
 
 // scroll to top
 
