@@ -70,10 +70,6 @@ function navCreate() {
 
 // Add class 'active' to section when near top of viewport
 
-function viewed(section) {
-    section.getBoundingClientRect();
-}
-
 
 // Scroll to anchor ID using scrollTO event
 
