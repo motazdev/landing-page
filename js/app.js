@@ -18,7 +18,6 @@
  * 
 */
 
-let sections = document.querySelectorAll('section');
 
 
 /**
@@ -26,17 +25,6 @@ let sections = document.querySelectorAll('section');
  * Start Helper Functions
  * 
 */
-
-function scrlTop() {
-    let y = window.scrollY;
-    if(y >= 400) {
-        document.getElementById('scroll__toTop').style.display = "block";
-    } else {
-        document.getElementById('scroll__toTop').style.display = "none";
-    }
-}
-
-
 
 
 
@@ -46,51 +34,46 @@ function scrlTop() {
  * 
 */
 
-
-
 // build the nav
 
-let counter = 4;
-function createNav() {
-
-
-    var sec = document.createElement("section");
-    var li = document.createElement("li");
-    counter = counter + 1;
-    sec.id  = 'section' + counter;
-    sec.num = counter;
+function navCreate() {
+    let sectionsLength = document.querySelectorAll('section').length;
+    secId = sectionsLength + 1;
     let secCode = `
-    <section id="${sec.id}" data-nav="Section ${sec.num}" class="">
-        <div class="landing__container">
-          <h2>Section ${sec.num}</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
-  
-          <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
-        </div>
-    </section>    
+    <section id="section${secId}" data-nav="Section ${secId}" class="">
+    <div class="landing__container">
+        <h2>Section ${secId}</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
+
+        <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
+    </div>
+    </section>        
     `
-    let list = document.querySelector('main');
-    list.insertAdjacentHTML("beforeend", secCode);
+    document.querySelector('main').insertAdjacentHTML('beforeend', secCode);
 
-    // NAV ITEMS BUILD
+    // adding navs with the same idea of adding new sections \\
 
-    let navCode = `<li class="menu__item" data-secnum="${sec.num}"><a href="#section${sec.num}">Section ${sec.num}</a></li>`;
-    let menu = document.querySelector('.l__content');
-    menu.insertAdjacentHTML("beforeend", navCode);
+
+    /*
+    * i can get navs length again but its equal to
+    * sections length and it already declared (and the same thing about 'section id' and 'nav item id')
+    let navsLength = document.querySelectorAll('.menu__item').length;
+    */
+    let navItemCode = `
+    <li class="menu__item" data-secnum="${secId}"><a href="#section${secId}">Section ${secId}</a></li>
+    `
+    document.querySelector('#l__content').insertAdjacentHTML('beforeend', navItemCode);
 
 
 }
 
+
 // Add class 'active' to section when near top of viewport
 
-function isInViewport(elem) {
-    let distance = elem.getBoundingClientRect();
-    return (
-        // getting 
-      distance.top >= -100 &&
-      distance.bottom <= (window.innerHeight)
-    );
-  };
+function viewed(section) {
+    section.getBoundingClientRect();
+}
+
 
 // Scroll to anchor ID using scrollTO event
 
@@ -103,38 +86,25 @@ function isInViewport(elem) {
 
 // Build menu 
 
-document.getElementById('addsecbtn').addEventListener('click', function(e) {
+const addSecBtn = document.getElementById('addsecbtn');
+
+addSecBtn.addEventListener('click', function(e) {
     e.preventDefault();
-    createNav();
-})
-
+    navCreate();
+});
 // Scroll to section on link click
-
 
 // Set sections as active
 
-let sectionsBox = document.querySelectorAll('section');
-
-window.addEventListener('scroll', function(event) {
-
-sectionsBox.forEach(sec => {
-    
-    if (isInViewport(sec)) {
-    
-      sec.classList.add("your-active-class");
-    } else {
-    	sec.classList.remove("your-active-class");
-    }
-});
-});
-
-// scroll to top
-
-
-document.getElementById('scroll__toTop').addEventListener('click', function() {
-    window.scroll({
-        top: 0
+window.addEventListener('scroll', function() {
+    let sections = document.querySelectorAll('section');
+    sections.forEach(function(section) {
+        if(section.getBoundingClientRect().top >= -100 && section.getBoundingClientRect().bottom <= window.innerHeight) {
+            section.classList.add('your-active-class')
+        } else {
+            section.classList.remove('your-active-class')
+        }
     })
 })
 
-window.addEventListener("scroll", scrlTop);
+
