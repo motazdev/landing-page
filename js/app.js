@@ -39,14 +39,14 @@
 let sectionsLength = 4;
 for(let i=1; i<=sectionsLength; i++) {
     let staticNavItemCode = `
-    <li class="menu__item"><a href="#section${i}">Section ${i}</a></li>
+    <li class="menu__item"><a class="nav_sec_item" data-sec="section${i}" href="#">Section ${i}</a></li>
     `    
     document.querySelector('#l__content').insertAdjacentHTML('beforeend', staticNavItemCode);
 }
 
 for(let i=1; i<=sectionsLength; i++) {
     let secCode = `
-    <section id="section${i}" class="">
+    <section id="section${i}" class="section">
     <div class="landing__container">
         <h2>Section ${i}</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
@@ -70,7 +70,7 @@ function navCreate() {
     let sectionsLength = document.querySelectorAll('section').length;
     secId = sectionsLength + 1;
     let secCode = `
-    <section id="section${secId}" class="">
+    <section id="section${secId}" class="section">
     <div class="landing__container">
         <h2>Section ${secId}</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
@@ -134,3 +134,19 @@ window.addEventListener('scroll', function() {
 })
 
 
+/*  SCROLL TO SECTION
+    Without using =>>  href="#section[section number]"
+*/
+//getting all nav items
+let navsClickScroll = document.querySelectorAll('.nav_sec_item');
+let allSections = document.querySelectorAll('section');
+for(let nav of navsClickScroll) {
+    let secNum = nav.getAttribute('data-sec');
+    nav.addEventListener('click', function(e) {
+        e.preventDefault();
+        scroll({
+            top: document.getElementById(secNum).offsetTop,
+            behavior: "smooth" /* OR  USING CSS =>> html{scroll-behavior: smooth;} */
+        })
+    })
+}
